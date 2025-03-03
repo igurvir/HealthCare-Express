@@ -1,0 +1,69 @@
+/* Admin Login Container */
+.loginContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f6f9;
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  /* Admin Login Form */
+  .loginForm {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 40px 30px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+  }
+  
+  /* Title */
+  .title {
+    font-size: 30px;
+    color: #333;
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+  
+  /* Input Fields */
+  .inputField {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+    color: #333;
+    outline: none;
+  }
+  
+  .inputField:focus {
+    border-color: #007bff;
+  }
+  
+  /* Login Button */
+  .loginButton {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+  }
+  
+  .loginButton:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Error Message */
+  .error {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  

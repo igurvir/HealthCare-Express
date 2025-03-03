@@ -1,0 +1,191 @@
+/* Home Page Container */
+.container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Banner Section */
+  .banner {
+    background-color: #fff;
+    text-align: center;
+    padding: 40px 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .heading {
+    font-size: 36px;
+    font-weight: bold;
+    color: #2e7d32;
+  }
+  
+  .subheading {
+    font-size: 18px;
+    color: #555;
+    margin-top: 10px;
+  }
+  
+  .buttons {
+    margin-top: 20px;
+  }
+  
+  .sellerButton {
+    padding: 12px 30px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+  }
+  
+  .sellerButton:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Categories Section */
+  .categories {
+    margin-top: 40px;
+  }
+  
+  .categoriesHeading {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .categoryGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+  
+  .categoryCard {
+    background-color: white;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .categoryImage {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+  }
+  
+  .categoryTitle {
+    font-size: 20px;
+    font-weight: bold;
+    color: #007bff;
+    margin-top: 15px;
+  }
+  
+  .categoryDescription {
+    color: #555;
+    font-size: 14px;
+    margin-top: 10px;
+  }
+  
+  .categoryCard:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Testimonials Section */
+  .testimonials {
+    margin-top: 60px;
+    background-color: #f9f9f9;
+    padding: 30px;
+    border-radius: 10px;
+  }
+  
+  .testimonialsHeading {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .testimonialCards {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+  }
+  
+  .testimonialCard {
+    background-color: white;
+    padding: 20px;
+    width: 250px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .rating {
+    color: #ffcc00;
+    font-size: 20px;
+  }
+  
+  .testimonialCard p {
+    font-size: 14px;
+    color: #555;
+    margin-top: 10px;
+  }
+  
+  /* Newsletter Section */
+  .newsletter {
+    margin-top: 40px;
+    background-color: #e0f7fa;
+    padding: 40px 20px;
+    text-align: center;
+    border-radius: 10px;
+  }
+  
+  .newsletterHeading {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .newsletterForm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .newsletterInput {
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .newsletterButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .newsletterButton:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Footer Section */
+  .footer {
+    margin-top: 60px;
+    text-align: center;
+    color: #555;
+  }
+  
+  .footer p {
+    font-size: 14px;
+  }
+  

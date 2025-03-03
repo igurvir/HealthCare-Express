@@ -1,0 +1,58 @@
+/* Navbar Styling */
+.navbar {
+  background-color: #007bff;
+  padding: 10px 30px;
+  color: white;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 100;
+}
+
+.brand {
+  font-size: 24px;
+  color: white;
+  cursor: pointer;
+}
+
+.navItems {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.navButton {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.navButton:hover {
+  background-color: #218838;
+}
+
+.navButton:active {
+  background-color: #1e7e34;
+}
+
+/* Responsive Design for Mobile */
+@media (max-width: 768px) {
+  .navItems {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .navButton {
+    width: 100%;
+  }
+}

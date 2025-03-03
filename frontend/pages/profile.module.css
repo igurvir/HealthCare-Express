@@ -1,0 +1,55 @@
+.profileContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #f4f4f9;
+    height: 100vh;
+  }
+  
+  .profileDetails {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .profileImage {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-right: 20px;
+  }
+  
+  .inputField {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px 0;
+    width: 300px;
+    border-radius: 5px;
+  }
+  
+  .updateButton {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .updateButton:hover {
+    background-color: #0056b3;
+  }
+  
+  .logoutButton {
+    background-color: #dc3545;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .logoutButton:hover {
+    background-color: #c82333;
+  }
+  
