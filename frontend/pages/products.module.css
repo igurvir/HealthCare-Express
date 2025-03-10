@@ -4,14 +4,14 @@
   max-width: 1200px;
   margin: 0 auto;
 }
-
+ 
 .heading {
   text-align: center;
   font-size: 2.5rem;
   font-weight: bold;
   margin-bottom: 1.5rem;
 }
-
+ 
 /* Product grid layout */
 .productGrid {
   display: grid;
@@ -19,7 +19,7 @@
   gap: 1.5rem;
   margin-bottom: 3rem;
 }
-
+ 
 /* Card for each product */
 .productCard {
   background-color: #fff;
@@ -29,18 +29,18 @@
   transition: transform 0.3s ease;
   cursor: pointer;
 }
-
+ 
 .productCard:hover {
   transform: translateY(-10px);
 }
-
+ 
 /* Image wrapper for product */
 .imageWrapper {
   position: relative;
   padding-top: 75%;  /* 4:3 Aspect Ratio */
   overflow: hidden;
 }
-
+ 
 /* Product image */
 .productImage {
   position: absolute;
@@ -52,21 +52,21 @@
   object-fit: cover;
   border-radius: 8px 8px 0 0;
 }
-
+ 
 /* Title and description */
 .productTitle {
   font-size: 1.2rem;
   font-weight: bold;
   padding: 1rem;
 }
-
+ 
 .productCategory {
   font-size: 1rem;
   color: #555;
   padding-left: 1rem;
   padding-right: 1rem;
 }
-
+ 
 .productPrice {
   font-size: 1.4rem;
   font-weight: bold;
@@ -75,7 +75,7 @@
   padding-right: 1rem;
   margin-top: 0.5rem;
 }
-
+ 
 /* Button styles */
 .addToCartButton {
   display: block;
@@ -91,11 +91,11 @@
   transition: background-color 0.3s ease;
   margin-top: 1rem;
 }
-
+ 
 .addToCartButton:hover {
   background-color: #218838;
 }
-
+ 
 /* Go Back Button */
 .goBackButton {
   padding: 0.8rem 2rem;
@@ -110,7 +110,7 @@
   margin: 0 auto;
   transition: background-color 0.3s ease;
 }
-
+ 
 .goBackButton:hover {
   background-color: #0056b3;
 }
