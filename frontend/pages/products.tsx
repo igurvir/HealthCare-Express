@@ -22,13 +22,6 @@ export default function ProductsPage() {
     const fetchProducts = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, "products"));
-
-        // ✅ Firestore Debugging
-        console.log("🔥 Firestore Raw Data:");
-        querySnapshot.forEach((doc) => {
-          console.log("📄 Document ID:", doc.id, " Data:", doc.data());
-        });
-
         const productList: Product[] = querySnapshot.docs.map((doc) => {
           const data = doc.data();
           return {
@@ -38,8 +31,6 @@ export default function ProductsPage() {
             category: data.category || "⚠️ Uncategorized",
           };
         });
-
-        console.log("✅ Final Processed Products:", productList);
         setProducts(productList);
       } catch (error) {
         console.error("❌ Error fetching products:", error);
@@ -50,15 +41,22 @@ export default function ProductsPage() {
   }, []);
 
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-4">Products</h1>
-      <div className="grid grid-cols-3 gap-4">
+    <div className={styles.container}>
+      <h1 className={styles.heading}>Shop Our Products</h1>
+      <div className={styles.productGrid}>
         {products.length > 0 ? (
           products.map((product) => (
             <div key={product.id} className={styles.productCard}>
-              <h2 className={styles.productTitle}>{product.description}</h2> 
-              <p className={styles.productPrice}>${product.price}</p>
-              <p>{product.category}</p>
+              <div className={styles.imageWrapper}>
+                <img
+                  src="https://via.placeholder.com/200"  // Placeholder image, replace with actual product image
+                  alt={product.description}
+                  className={styles.productImage}
+                />
+              </div>
+              <h2 className={styles.productTitle}>{product.description}</h2>
+              <p className={styles.productCategory}>{product.category}</p>
+              <p className={styles.productPrice}>${product.price.toFixed(2)}</p>
               <button
                 className={styles.addToCartButton}
                 onClick={() => dispatch(addToCart(product))}
