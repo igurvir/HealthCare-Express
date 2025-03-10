@@ -1,0 +1,108 @@
+/* Container styling */
+.container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* Heading */
+  .heading {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  /* Empty Cart */
+  .empty-cart {
+    color: gray;
+  }
+  
+  /* Cart Items */
+  .cart-items {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .product-name {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .product-price {
+    color: gray;
+  }
+  
+  .remove-button {
+    background-color: red;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .remove-button:hover {
+    background-color: darkred;
+  }
+  
+  /* Coupon Section */
+  .coupon-section {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f8f8f8;
+  }
+  
+  .coupon-heading {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .coupon-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .coupon-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+  }
+  
+  .coupon-code {
+    font-weight: bold;
+    color: blue;
+  }
+  
+  /* Footer */
+  .footer {
+    margin-top: 30px;
+    text-align: center;
+    color: gray;
+    border-top: 1px solid #ddd;
+    padding-top: 15px;
+  }
+  
+  .footer-link {
+    color: blue;
+    text-decoration: none;
+  }
+  
+  .footer-link:hover {
+    text-decoration: underline;
+  }
+  

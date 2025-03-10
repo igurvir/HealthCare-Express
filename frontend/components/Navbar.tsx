@@ -52,6 +52,9 @@ export default function Navbar() {
             <Link href="/products" passHref>
               <button className={styles.navButton}>Products</button>
             </Link>
+            <Link href="/cart" passHref>
+              <button className={styles.navButton}>Shopping Cart</button>
+            </Link>
             {role === "admin" && (
               <Link href="/admin-dashboard" passHref>
                 <button className={styles.navButton}>Admin Dashboard</button>

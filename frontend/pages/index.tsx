@@ -95,7 +95,7 @@ export default function HomePage() {
 
       {/* Footer Section */}
       <footer className={styles.footer}>
-        <p>&copy; 2025 TradMed Market. All rights reserved.</p>
+        <p>&copy; 2025 HealthCare_Express. All rights reserved.</p>
       </footer>
     </div>
   );
