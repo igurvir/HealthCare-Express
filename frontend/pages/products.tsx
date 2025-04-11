@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { addToCart } from "../store/store";
-import Link from "next/link";
-import styles from './products.module.css';
+import { addToCart } from "../store/store"; // Import addToCart action
+import { db } from "../firebase";
+import { doc, setDoc, getDoc } from "firebase/firestore";
+import styles from "./products.module.css";
+import { auth } from "../firebase"; // Import auth from your Firebase configuration file
 
-// Define Product Type
+
 type Product = {
   id: string;
   name: string;
@@ -17,7 +18,7 @@ type Product = {
 export default function ProductsPage() {
   const dispatch = useDispatch();
 
-  // Hardcoded Traditional Medicines
+  // Hardcoded Products
   const products: Product[] = [
     {
       id: "1",
@@ -101,6 +102,25 @@ export default function ProductsPage() {
     }
   ];
 
+  const addToCartFirestore = async (product: Product) => {
+    const user = auth.currentUser;
+    if (user) {
+      const userRef = doc(db, "users", user.uid);
+      const userSnapshot = await getDoc(userRef);
+
+      let cart = userSnapshot.exists() ? userSnapshot.data()?.cart || [] : [];
+
+      // Add product to the cart array
+      cart.push(product);
+
+      // Save the updated cart back to Firestore
+      await setDoc(userRef, { cart }, { merge: true });
+
+      // Dispatch to Redux
+      dispatch(addToCart(product));
+    }
+  };
+
   return (
     <div className={styles.container}>
       <h1 className={styles.heading}>Traditional Medicines</h1>
@@ -119,17 +139,12 @@ export default function ProductsPage() {
             <p className={styles.productPrice}>${product.price.toFixed(2)}</p>
             <button
               className={styles.addToCartButton}
-              onClick={() => dispatch(addToCart(product))}
+              onClick={() => addToCartFirestore(product)}  // Add product to Firestore and Redux
             >
               Add to Cart
             </button>
           </div>
         ))}
-      </div>
-      <div className="mt-6">
-        <Link href="/">
-          <button className={styles.goBackButton}>Go Back</button>
-        </Link>
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
-
+import { db } from "../firebase"; // Import Firestore
+import { doc, setDoc, getDoc } from "firebase/firestore";
 
 // Define the product type
 export interface Product {
@@ -12,8 +13,11 @@ export interface Product {
 // Create Redux slice for cart
 const cartSlice = createSlice({
   name: "cart",
-  initialState: [] as Product[],
+  initialState: [] as Product[], // Cart will initially be empty
   reducers: {
+    setCart: (state, action: PayloadAction<Product[]>) => {
+      return action.payload;
+    },
     addToCart: (state: any[], action: PayloadAction<Product>) => {
       state.push(action.payload);
     },
@@ -23,8 +27,7 @@ const cartSlice = createSlice({
   },
 });
 
-// Export Redux actions
-export const { addToCart, removeFromCart } = cartSlice.actions;
+export const { setCart, addToCart, removeFromCart } = cartSlice.actions;
 
 // Configure Redux store
 export const store = configureStore({
@@ -33,6 +36,5 @@ export const store = configureStore({
   },
 });
 
-// Define TypeScript types for Redux
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

@@ -1,8 +1,11 @@
 import { useSelector, useDispatch } from "react-redux";
-import { removeFromCart } from "../store/store"; // Ensure correct import path
+import { removeFromCart } from "../store/store"; // Import removeFromCart action
+import { db } from "../firebase";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import styles from "./cart.module.css";
+import { auth } from "../firebase"; // Import auth from your Firebase configuration file
 
-// Define Product Type
+
 type Product = {
   id: string;
   name: string;
@@ -15,53 +18,68 @@ export default function CartPage() {
   const cart = useSelector((state: { cart: Product[] }) => state.cart);
   const dispatch = useDispatch();
 
-  const coupons = [
-    { code: "SAVE10", discount: "10% off" },
-    { code: "FREESHIP", discount: "Free Shipping" },
-    { code: "WELCOME5", discount: "$5 off your first order" },
-  ];
+  const saveCartToFirestore = async (cart: Product[]) => {
+    const user = auth.currentUser;
+    if (user) {
+      const userRef = doc(db, "users", user.uid);
+      await setDoc(userRef, { cart }, { merge: true }); // Save cart to Firestore
+    }
+  };
+
+  const removeFromCartFirestore = async (productId: string) => {
+    const user = auth.currentUser;
+    if (user) {
+      const userRef = doc(db, "users", user.uid);
+      const userSnapshot = await getDoc(userRef);
+
+      if (userSnapshot.exists()) {
+        let cart = userSnapshot.data()?.cart || [];
+        cart = cart.filter((item: Product) => item.id !== productId);
+
+        // Save the updated cart to Firestore
+        await setDoc(userRef, { cart }, { merge: true });
+      }
+    }
+
+    dispatch(removeFromCart(productId));  // Remove from Redux store
+  };
+
+  if (cart.length === 0) {
+    return (
+      <div className={styles.container}>
+        <h1 className={styles.heading}>Shopping Cart</h1>
+        <p>Your cart is empty. Start shopping now!</p>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>
       <h1 className={styles.heading}>Shopping Cart</h1>
-      {cart.length === 0 ? (
-        <p className={styles.emptyCart}>Your cart is empty. Start shopping now!</p>
-      ) : (
-        <div className={styles.cartItems}>
-          {cart.map((product: Product) => (
-            <div key={product.id} className={styles.cartItem}>
-              <div>
-                <h2 className={styles.productName}>{product.name}</h2>
-                <p className={styles.productPrice}>${product.price}</p>
-              </div>
-              <button
-                className={styles.removeButton}
-                onClick={() => dispatch(removeFromCart(product))}
-              >
-                Remove
-              </button>
+      <div className={styles.cartItems}>
+        {cart.map((product: Product) => (
+          <div key={product.id} className={styles.cartItem}>
+            <div>
+              <h2 className={styles.productName}>{product.name}</h2>
+              <p className={styles.productPrice}>${product.price.toFixed(2)}</p>
             </div>
-          ))}
-        </div>
-      )}
-      
-      {/* Coupons Section */}
-      <div className={styles.couponSection}>
-        <h2 className={styles.couponHeading}>Available Coupons</h2>
-        <ul className={styles.couponList}>
-          {coupons.map((coupon) => (
-            <li key={coupon.code} className={styles.couponItem}>
-              <span>{coupon.discount}</span>
-              <span className={styles.couponCode}>{coupon.code}</span>
-            </li>
-          ))}
-        </ul>
+            <button
+              className={styles.removeButton}
+              onClick={() => removeFromCartFirestore(product.id)}  // Remove from Firestore and Redux
+            >
+              Remove
+            </button>
+          </div>
+        ))}
       </div>
 
-      {/* Footer Section */}
-      <footer className={styles.footer}>
-        <p>&copy; 2025 HealthCare_Express. All rights reserved.</p>
-      </footer>
+      {/* Total Price */}
+      <div className={styles.totalPrice}>
+        <p>Total: ${cart.reduce((total, product) => total + product.price, 0).toFixed(2)}</p>
+      </div>
+
+      {/* Checkout Button */}
+      <button className={styles.checkoutButton}>Proceed to Checkout</button>
     </div>
   );
 }
