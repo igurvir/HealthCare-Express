@@ -1,7 +1,7 @@
 /* Navbar Styling */
 .navbar {
   background-color: #007bff;
-  padding: 10px 30px;
+  padding: 15px 30px;  /* Increase padding for better spacing */
   color: white;
   font-weight: bold;
   display: flex;
@@ -12,17 +12,19 @@
   top: 0;
   left: 0;
   z-index: 100;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Added a subtle shadow */
 }
 
 .brand {
   font-size: 24px;
   color: white;
   cursor: pointer;
+  font-weight: 700;  /* Make the brand name bolder */
 }
 
 .navItems {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end; /* Align the buttons to the right */
   align-items: center;
   gap: 20px;
 }
@@ -30,29 +32,43 @@
 .navButton {
   background-color: #28a745;
   color: white;
-  padding: 10px 15px;
+  padding: 12px 18px;  /* Increase padding for a better look */
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 16px;  /* Increase font size for better readability */
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition for hover */
 }
 
 .navButton:hover {
   background-color: #218838;
+  transform: scale(1.05);  /* Slight scale effect on hover */
 }
 
 .navButton:active {
   background-color: #1e7e34;
 }
 
+.navButton:focus {
+  outline: none;
+}
+
 /* Responsive Design for Mobile */
 @media (max-width: 768px) {
+  .navbar {
+    padding: 10px 20px;  /* Adjust padding for smaller screens */
+  }
+
   .navItems {
     flex-direction: column;
-    gap: 10px;
+    gap: 15px; /* Spacing between buttons */
+    width: 100%;
+    text-align: center; /* Center the buttons */
   }
 
   .navButton {
     width: 100%;
+    font-size: 14px;  /* Adjust font size for mobile */
   }
 }
+

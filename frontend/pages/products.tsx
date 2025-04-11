@@ -1,10 +1,10 @@
+// pages/products.tsx
 import { useDispatch } from "react-redux";
 import { addToCart } from "../store/store"; // Import addToCart action
 import { db } from "../firebase";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import styles from "./products.module.css";
 import { auth } from "../firebase"; // Import auth from your Firebase configuration file
-
 
 type Product = {
   id: string;
@@ -13,6 +13,7 @@ type Product = {
   description: string;
   category: string;
   imageUrl: string;
+  quantityAvailable: number; // Available quantity for the product
 };
 
 export default function ProductsPage() {
@@ -27,6 +28,7 @@ export default function ProductsPage() {
       description: "Boosts energy, reduces stress, and improves immunity.",
       category: "Ayurvedic",
       imageUrl: "/images/ashwagandha.png",
+      quantityAvailable: 10, // Initial available quantity
     },
     {
       id: "2",
@@ -35,6 +37,7 @@ export default function ProductsPage() {
       description: "Supports digestion, detoxifies, and enhances metabolism.",
       category: "Ayurvedic",
       imageUrl: "/images/triphala.png",
+      quantityAvailable: 8,
     },
     {
       id: "3",
@@ -43,6 +46,7 @@ export default function ProductsPage() {
       description: "Increases stamina, mental clarity, and supports overall well-being.",
       category: "Traditional Chinese",
       imageUrl: "/images/ginseng.png",
+      quantityAvailable: 22,
     },
     {
       id: "4",
@@ -51,6 +55,7 @@ export default function ProductsPage() {
       description: "Strengthens the immune system and fights seasonal flu.",
       category: "Herbal",
       imageUrl: "/images/elderberry.png",
+      quantityAvailable: 49,
     },
     {
       id: "5",
@@ -59,6 +64,7 @@ export default function ProductsPage() {
       description: "Powerful anti-inflammatory and antioxidant properties.",
       category: "Ayurvedic",
       imageUrl: "/images/turmeric.png",
+      quantityAvailable: 77,
     },
     {
       id: "6",
@@ -67,6 +73,7 @@ export default function ProductsPage() {
       description: "Supports immune function and reduces stress levels.",
       category: "Traditional Chinese",
       imageUrl: "/images/reishi.png",
+      quantityAvailable: 23,
     },
     {
       id: "7",
@@ -75,6 +82,7 @@ export default function ProductsPage() {
       description: "Purifies blood, supports skin health, and boosts immunity.",
       category: "Ayurvedic",
       imageUrl: "/images/neem.png",
+      quantityAvailable: 5,
     },
     {
       id: "8",
@@ -83,6 +91,7 @@ export default function ProductsPage() {
       description: "Relieves headaches, improves digestion, and soothes muscles.",
       category: "Essential Oils",
       imageUrl: "/images/peppermint.png",
+      quantityAvailable: 56,
     },
     {
       id: "9",
@@ -91,6 +100,7 @@ export default function ProductsPage() {
       description: "Soothes sore throats, improves digestion, and supports respiratory health.",
       category: "Herbal",
       imageUrl: "/images/licorice.png",
+      quantityAvailable: 80,
     },
     {
       id: "10",
@@ -99,12 +109,16 @@ export default function ProductsPage() {
       description: "Promotes heart health, reduces inflammation, and boosts immunity.",
       category: "Unani Medicine",
       imageUrl: "/images/blackseed.png",
+      quantityAvailable: 12,
     }
   ];
+    // Add quantityAvailable to other products similarly...
+  
 
+  // Add product to Firestore and Redux
   const addToCartFirestore = async (product: Product) => {
     const user = auth.currentUser;
-    if (user) {
+    if (user && product.quantityAvailable > 0) {
       const userRef = doc(db, "users", user.uid);
       const userSnapshot = await getDoc(userRef);
 
@@ -113,11 +127,20 @@ export default function ProductsPage() {
       // Add product to the cart array
       cart.push(product);
 
-      // Save the updated cart back to Firestore
+      // Update quantityAvailable for the product in Firestore
+      const updatedProduct = {
+        ...product,
+        quantityAvailable: product.quantityAvailable - 1, // Decrease available quantity by 1
+      };
+
+      // Save the updated cart and product in Firestore
       await setDoc(userRef, { cart }, { merge: true });
 
-      // Dispatch to Redux
-      dispatch(addToCart(product));
+      // Save the updated product in a separate collection (optional)
+      await setDoc(doc(db, "products", product.id), updatedProduct, { merge: true });
+
+      // Dispatch to Redux to update the cart
+      dispatch(addToCart(updatedProduct));
     }
   };
 
@@ -137,11 +160,13 @@ export default function ProductsPage() {
             <h2 className={styles.productTitle}>{product.name}</h2>
             <p className={styles.productCategory}>{product.category}</p>
             <p className={styles.productPrice}>${product.price.toFixed(2)}</p>
+            <p className={styles.quantityAvailable}>Available: {product.quantityAvailable}</p> {/* Show available quantity */}
             <button
               className={styles.addToCartButton}
               onClick={() => addToCartFirestore(product)}  // Add product to Firestore and Redux
+              disabled={product.quantityAvailable <= 0}  // Disable button if no stock
             >
-              Add to Cart
+              {product.quantityAvailable > 0 ? "Add to Cart" : "Out of Stock"}
             </button>
           </div>
         ))}

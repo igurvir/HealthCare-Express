@@ -1,0 +1,35 @@
+/* orders.module.css */
+.container {
+    padding: 20px;
+  }
+  
+  .heading {
+    font-size: 2em;
+    margin-bottom: 20px;
+  }
+  
+  .orderList {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .orderCard {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 5px;
+  }
+  
+  .orderCard h3 {
+    margin-bottom: 10px;
+  }
+  
+  .orderCard ul {
+    list-style-type: none;
+    padding-left: 0;
+  }
+  
+  .orderCard li {
+    padding: 5px 0;
+  }
+  
