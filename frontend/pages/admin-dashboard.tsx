@@ -1,22 +1,56 @@
-import { useState } from "react";
-import styles from './admin-dashboard.module.css'; // Admin dashboard styling
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { db } from "../firebase";
+import { collection, getDocs, doc, getDoc } from "firebase/firestore";
+import styles from './admin-dashboard.module.css';
 
 export default function AdminDashboard() {
-  // Hardcoded Users
-  const users = [
-    { id: "1", name: "John Doe", email: "john@example.com", role: "admin" },
-    { id: "2", name: "Jane Smith", email: "jane@example.com", role: "seller" },
-    { id: "3", name: "Mark Johnson", email: "mark@example.com", role: "customer" },
-    { id: "4", name: "Alice Brown", email: "alice@example.com", role: "seller" },
-  ];
+  const [users, setUsers] = useState<any[]>([]);
+  const [orders, setOrders] = useState<any[]>([]);
+  const [products, setProducts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
-  // Hardcoded Orders
-  const orders = [
-    { id: "101", user: "John Doe", totalPrice: 100, status: "Shipped" },
-    { id: "102", user: "Jane Smith", totalPrice: 50, status: "Processing" },
-    { id: "103", user: "Mark Johnson", totalPrice: 75, status: "Delivered" },
-    { id: "104", user: "Alice Brown", totalPrice: 120, status: "Shipped" },
-  ];
+  useEffect(() => {
+    const isAdmin = localStorage.getItem("isAdmin");
+    if (isAdmin !== "true") {
+      router.push("/admin-login");
+      return;
+    }
+
+    fetchDashboardData();
+  }, [router]);
+
+  const fetchDashboardData = async () => {
+    const usersSnapshot = await getDocs(collection(db, "users"));
+    const userList: any[] = [];
+    const allOrders: any[] = [];
+
+    for (const docSnap of usersSnapshot.docs) {
+      const data = docSnap.data();
+      userList.push({ id: docSnap.id, ...data });
+
+      if (Array.isArray(data.orders)) {
+        data.orders.forEach((order: any) => {
+          allOrders.push(order);
+        });
+      }
+    }
+
+    const productsSnapshot = await getDocs(collection(db, "products"));
+    const productList = productsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+    setUsers(userList);
+    setOrders(allOrders);
+    setProducts(productList);
+    setLoading(false);
+  };
+
+  const totalSales = orders.reduce((acc, order) => acc + (order.price || 0), 0);
+  const totalOrders = orders.length;
+  const averageOrderValue = totalOrders > 0 ? (totalSales / totalOrders).toFixed(2) : "0.00";
+
+  if (loading) return <p>Loading dashboard...</p>;
 
   return (
     <div className={styles.container}>
@@ -36,9 +70,9 @@ export default function AdminDashboard() {
           <tbody>
             {users.map((user) => (
               <tr key={user.id}>
-                <td>{user.name}</td>
-                <td>{user.email}</td>
-                <td>{user.role}</td>
+                <td>{user.name || "N/A"}</td>
+                <td>{user.email || "N/A"}</td>
+                <td>{user.role || "customer"}</td>
               </tr>
             ))}
           </tbody>
@@ -51,21 +85,67 @@ export default function AdminDashboard() {
         <table className={styles.table}>
           <thead>
             <tr>
-              <th>Order ID</th>
-              <th>User</th>
-              <th>Total Price</th>
+              <th>Product</th>
+              <th>Quantity</th>
+              <th>Price</th>
               <th>Status</th>
             </tr>
           </thead>
           <tbody>
-            {orders.map((order) => (
-              <tr key={order.id}>
-                <td>{order.id}</td>
-                <td>{order.user}</td>
-                <td>${order.totalPrice}</td>
+            {orders.map((order, index) => (
+              <tr key={index}>
+                <td>{order.productName}</td>
+                <td>{order.quantity}</td>
+                <td>${order.price}</td>
                 <td>{order.status}</td>
               </tr>
             ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Products Section */}
+      <div className={styles.section}>
+        <h2 className={styles.sectionTitle}>Products</h2>
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Price</th>
+              <th>Category</th>
+              <th>Available</th>
+            </tr>
+          </thead>
+          <tbody>
+            {products.map((product) => (
+              <tr key={product.id}>
+                <td>{product.name}</td>
+                <td>${product.price}</td>
+                <td>{product.category}</td>
+                <td>{product.quantityAvailable}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Sales Analytics Section */}
+      <div className={styles.section}>
+        <h2 className={styles.sectionTitle}>Sales Analytics</h2>
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              <th>Total Orders</th>
+              <th>Total Sales ($)</th>
+              <th>Average Order Value ($)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{totalOrders}</td>
+              <td>${totalSales.toFixed(2)}</td>
+              <td>${averageOrderValue}</td>
+            </tr>
           </tbody>
         </table>
       </div>

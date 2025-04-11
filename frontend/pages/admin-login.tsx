@@ -14,6 +14,7 @@ const AdminLogin = () => {
 
   const handleAdminLogin = () => {
     if (username === adminUsername && password === adminPassword) {
+      localStorage.setItem("isAdmin", "true");
       // Redirect to the admin dashboard on successful login
       router.push("/admin-dashboard"); // Change this to your admin dashboard route
     } else {

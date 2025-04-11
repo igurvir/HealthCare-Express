@@ -7,7 +7,12 @@ import { loadStripe } from '@stripe/stripe-js';
 import styles from "./cart.module.css";
 
 // Load your Stripe public key (this is safe to expose)
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
+if (!process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY) {
+  throw new Error("Stripe public key is missing in environment variables.");
+}
+
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
+
 
 type Product = {
   id: string;
