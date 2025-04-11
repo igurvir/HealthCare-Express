@@ -1,0 +1,35 @@
+/* success.module.css */
+
+/* Container */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f0f8ff;
+    padding: 20px;
+  }
+  
+  /* Heading */
+  .heading {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #4caf50;
+    margin-bottom: 20px;
+  }
+  
+  /* Success Icon */
+  .successIcon {
+    font-size: 4rem;
+    color: #4caf50;
+    margin-bottom: 20px;
+  }
+  
+  /* Paragraph */
+  .paragraph {
+    font-size: 1.2rem;
+    color: #333;
+    text-align: center;
+  }
+  
