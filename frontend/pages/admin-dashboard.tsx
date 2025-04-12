@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { db } from "../firebase";
-import { collection, getDocs, doc, getDoc } from "firebase/firestore";
+import { collection, getDocs, doc, getDoc, addDoc } from "firebase/firestore";
 import styles from './admin-dashboard.module.css';
 
 export default function AdminDashboard() {
@@ -44,6 +44,24 @@ export default function AdminDashboard() {
     setOrders(allOrders);
     setProducts(productList);
     setLoading(false);
+  };
+
+  const handleAddUser = async () => {
+    const name = prompt("Enter new user's name:");
+    const email = prompt("Enter new user's email:");
+    const role = prompt("Enter role (admin/seller/customer):", "customer");
+
+    if (name && email && role) {
+      await addDoc(collection(db, "users"), { name, email, role });
+      alert("User added successfully.");
+      fetchDashboardData();
+    } else {
+      alert("All fields are required.");
+    }
+  };
+
+  const handleViewReports = () => {
+    alert(`Total Orders: ${totalOrders}\nTotal Sales: $${totalSales.toFixed(2)}\nAverage Order Value: $${averageOrderValue}`);
   };
 
   const totalSales = orders.reduce((acc, order) => acc + (order.price || 0), 0);
@@ -152,8 +170,8 @@ export default function AdminDashboard() {
 
       {/* Actions Section */}
       <div className={styles.actions}>
-        <button className={styles.actionButton}>Add New User</button>
-        <button className={styles.actionButton}>View Reports</button>
+        <button className={styles.actionButton} onClick={handleAddUser}>Add New User</button>
+        <button className={styles.actionButton} onClick={handleViewReports}>View Reports</button>
       </div>
     </div>
   );
