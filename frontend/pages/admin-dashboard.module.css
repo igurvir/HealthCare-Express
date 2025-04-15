@@ -1,9 +1,9 @@
 /* Admin Dashboard Container */
 .container {
+  margin: 100px auto 0 auto; /* Top margin to push content below navbar */
   padding: 2rem;
   font-family: 'Roboto', sans-serif;
   max-width: 1200px;
-  margin: 0 auto;
 }
 
 /* Title */

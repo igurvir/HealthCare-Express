@@ -1,18 +1,16 @@
 // pages/cart.tsx
 
 import { useSelector, useDispatch } from "react-redux";
-import { removeFromCart } from "../store/store"; // Import removeFromCart action
+import { removeFromCart } from "../store/store"; // your Redux remove action
 import { useRouter } from "next/router";
-import { loadStripe } from '@stripe/stripe-js';
+import { loadStripe } from "@stripe/stripe-js";
 import styles from "./cart.module.css";
 
-// Load your Stripe public key (this is safe to expose)
 if (!process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY) {
   throw new Error("Stripe public key is missing in environment variables.");
 }
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
-
 
 type Product = {
   id: string;
@@ -33,41 +31,38 @@ export default function CartPage() {
 
   const handleCheckout = async () => {
     const stripe = await stripePromise;
-
     if (!stripe) {
-      console.error("Stripe failed to load.");
       alert("Stripe failed to load.");
       return;
     }
 
-    console.log("Stripe successfully loaded:", stripe);
+    console.log("Ready to checkout. Cart contents:", cart);
 
     try {
-      const response = await fetch('/api/checkout_sessions', {
-        method: 'POST',
+      const response = await fetch("/api/checkout_sessions", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          cart, // Pass the cart data to the API
-          user_email: 'user@example.com', // Replace with real user email if available
-          cart_id: '12345', // You can track the cart ID for analytics
+          cart,
+          user_email: "user@example.com",
+          cart_id: "12345",
         }),
       });
 
+      // Log the raw response status
+      console.log("Checkout Session creation status:", response.status);
+
       const session = await response.json();
+      console.log("Checkout Session response JSON:", session);
 
-      // Check if session is created successfully
-      if (session?.id) {
-        const { error } = await stripe.redirectToCheckout({
-          sessionId: session.id, // Use the session ID returned from the backend
-        });
-
+      if (response.ok && session?.id) {
+        // Redirect to Stripe checkout
+        const { error } = await stripe.redirectToCheckout({ sessionId: session.id });
         if (error) {
           console.error("Stripe Checkout Error:", error);
           alert("Error redirecting to checkout.");
-        } else {
-          console.log("Redirecting to Stripe Checkout...");
         }
       } else {
         alert("Error creating Stripe session.");
@@ -109,7 +104,10 @@ export default function CartPage() {
 
       {/* Total Price */}
       <div className={styles.totalPrice}>
-        <p>Total: ${cart.reduce((total, product) => total + product.price, 0).toFixed(2)}</p>
+        <p>
+          Total: $
+          {cart.reduce((total, product) => total + product.price, 0).toFixed(2)}
+        </p>
       </div>
 
       {/* Checkout Button */}
